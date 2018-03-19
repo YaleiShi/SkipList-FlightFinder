@@ -5,7 +5,8 @@ package skipLists;
  */
 public class FlightData {
 	// FILL IN CODE: add private variables: flightNumber and price
-
+	private String flightNumber;
+	private double price;
 	/**
      * Constructor for FlightData
 	 * @param fnum flight number
@@ -13,6 +14,8 @@ public class FlightData {
 	 */
 	FlightData(String fnum, double price) {
 		// FILL IN CODE
+		this.flightNumber = fnum;
+		this.price = price;
 	}
 
 	/**
@@ -21,7 +24,7 @@ public class FlightData {
 	 */
 	public String getFlightNumber() {
 		// FILL IN CODE
-		return ""; // don't forget to change it
+		return this.flightNumber; // don't forget to change it
 	}
 
 	/**
@@ -30,6 +33,6 @@ public class FlightData {
 	 */
 	public double getPrice() {
 		// FILL IN CODE
-		return 0; // don't forget to change it
+		return this.price; // don't forget to change it
 	}
 }

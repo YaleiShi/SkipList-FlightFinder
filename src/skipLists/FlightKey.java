@@ -7,6 +7,10 @@ package skipLists;
 public class FlightKey implements Comparable<FlightKey> {
 	// Each key is a tuple: origin, destination, date, time
 	// FILL IN CODE
+	private String origin;
+	private String dest;
+	private String date;
+	private String time;
 
 	/**
      *  FlightKey constructor
@@ -17,7 +21,10 @@ public class FlightKey implements Comparable<FlightKey> {
 	 */
     public FlightKey(String or, String dest, String date, String time) {
 		// FILL IN CODE
-
+		this.origin = or;
+		this.dest = dest;
+		this.date = date;
+		this.time = time;
 	}
 
 	/**
@@ -26,10 +33,30 @@ public class FlightKey implements Comparable<FlightKey> {
 	 */
 	public FlightKey(FlightKey other) {
 		// FILL IN CODE
-
+		this.origin = other.origin;
+		this.dest = other.dest;
+		this.date = other.date;
+		this.time = other.time;
 	}
 
 	// FILL IN CODE: Write getters for origin, destination, date and time
+
+
+	public String getOrigin() {
+		return origin;
+	}
+
+	public String getDest() {
+		return dest;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public String getTime() {
+		return time;
+	}
 
 	/**
      * Compares a given flight key with the one given as a parameter.
@@ -38,6 +65,18 @@ public class FlightKey implements Comparable<FlightKey> {
 	 */
 	public int compareTo(FlightKey other) {
 		// FILL IN CODE
+		if(this.origin.compareTo(other.origin) < 0) return -1;
+		if(this.origin.compareTo(other.origin) > 0) return 1;
+
+		if(this.dest.compareTo(other.dest) < 0) return -1;
+		if(this.dest.compareTo(other.dest) > 0) return 1;
+
+		if(this.date.compareTo(other.date) < 0) return -1;
+		if(this.date.compareTo(other.date) > 0) return 1;
+
+		if(this.time.compareTo(other.time) < 0) return -1;
+		if(this.time.compareTo(other.time) > 0) return 1;
+
 		return 0; // don't forget to change it
 	}
 
@@ -47,6 +86,6 @@ public class FlightKey implements Comparable<FlightKey> {
 	 */
 	public String toString() {
 		// FILL IN CODE
-		return ""; // don't forget to change it
+		return "(" + origin + "," + dest + "," + date + "," + time + ")"; // don't forget to change it
 	}
 }
