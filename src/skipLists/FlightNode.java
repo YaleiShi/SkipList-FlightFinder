@@ -8,8 +8,8 @@ package skipLists;
 public class FlightNode {
 
 	// FILL IN CODE, declare instance variables (make them private)
-	private FlightKey fk;
-	private FlightData fd;
+	private FlightKey key;
+	private FlightData data;
 	private FlightNode next;
 	private FlightNode down;
 	private FlightNode prev;
@@ -21,8 +21,8 @@ public class FlightNode {
 	 */
 	public FlightNode(FlightNode node) {
 		// FILL IN CODE
-		this.fk = node.fk;
-		this.fd = node.fd;
+		this.key = node.key;
+		this.key = node.key;
 		this.next = node.next;
 		this.down = node.down;
 		this.prev = node.prev;
@@ -37,8 +37,8 @@ public class FlightNode {
 	 */
 	public FlightNode(FlightKey key, FlightData data) {
 		// FILL IN
-		this.fk = key;
-		this.fd = data;
+		this.key = key;
+		this.data = data;
 		this.next = null;
 		this.down = null;
 		this.up = null;
@@ -48,12 +48,32 @@ public class FlightNode {
 	// FILL IN CODE: write getters and setters for all private
 
 
-	public FlightData getFd() {
-		return fd;
+	public void setKey(FlightKey key) {
+		this.key = key;
 	}
 
-	public FlightKey getFk() {
-		return fk;
+	public void setData(FlightData data) {
+		this.data = data;
+	}
+
+	public void setNext(FlightNode next) {
+		this.next = next;
+	}
+
+	public void setDown(FlightNode down) {
+		this.down = down;
+	}
+
+	public void setPrev(FlightNode prev) {
+		this.prev = prev;
+	}
+
+	public void setUp(FlightNode up) {
+		this.up = up;
+	}
+
+	public FlightData getData() {
+		return data;
 	}
 
 	public FlightNode getNext() {
@@ -78,7 +98,7 @@ public class FlightNode {
 	 */
 	public FlightKey getKey() {
 		// FILL IN CODE
-		return fk; // don't forget to change it
+		return key; // don't forget to change it
 	}
 
 }

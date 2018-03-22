@@ -1,9 +1,15 @@
 package skipLists;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /** The class that represents the flight database using a skip list */
 public class FlightList {
+	private FlightNode head;
+	private FlightNode tail;
+	private int height;
+	private final double PROBABILITY = 0.5;
+	private Random random;
 
 	// FILL IN CODE: needs to store the head, the tail and the height of the skip
 	// list
@@ -11,6 +17,16 @@ public class FlightList {
 	/** Default constructor */
 	public FlightList() {
 		// FILL IN CODE
+		FlightKey leftKey = new FlightKey("AAA", "", "","");
+		FlightKey rightKey = new FlightKey("ZZZ", "", "", "");
+		FlightNode left = new FlightNode(leftKey, null);
+		FlightNode right = new FlightNode(rightKey,null);
+		left.setNext(right);
+		right.setPrev(left);
+		head = left;
+		tail = right;
+		height = 0;
+		random = new Random();
 
 	}
 
@@ -32,6 +48,18 @@ public class FlightList {
 	 */
 	public boolean find(FlightKey key) {
 		// FILL IN CODE
+		FlightNode current = head;
+		while(current != tail){
+			if(current.getNext().getKey().compareTo(key) > 0){
+				if(current.getDown() == null) return false;
+				current = current.getDown();
+			}else if(current.getNext().getKey().compareTo(key) == 0){
+				return true;
+			}else {
+				current = current.getNext();
+			}
+
+		}
 		return false; // don't forget to change it
 	}
 
@@ -46,6 +74,13 @@ public class FlightList {
 	public boolean insert(FlightKey key, FlightData data) {
 		// FILL IN CODE
 		return false; // don't forget to change it
+	}
+
+	public void  helpInsert(FlightNode middle, FlightNode prev, FlightNode next){
+		prev.setNext(middle);
+		middle.setPrev(prev);
+		middle.setNext(next);
+		next.setPrev(middle);
 	}
 
 	/**
