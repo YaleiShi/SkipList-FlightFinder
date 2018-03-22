@@ -48,7 +48,7 @@ public class FlightList {
 	public boolean find(FlightKey key) {
 		// FILL IN CODE
 		FlightNode current = head;
-		while(current != tail){
+		while(current.getKey() != tail.getKey()){
 			if(current.getNext().getKey().compareTo(key) > 0){
 				if(current.getDown() == null) return false;
 				current = current.getDown();
@@ -86,7 +86,7 @@ public class FlightList {
         FlightNode[] flightNodes = new FlightNode[h + 1];
         int j = 0;
         FlightNode current = head;
-        while(current != tail){
+        while(current.getKey() != tail.getKey()){
             if(current.getNext().getKey().compareTo(key) >= 0){
                 if(nowLevel <= h){
                     flightNodes[j] = current;
@@ -151,7 +151,24 @@ public class FlightList {
 	public ArrayList<FlightNode> successors(FlightKey key) {
 		ArrayList<FlightNode> arr = new ArrayList<FlightNode>();
 		// FILL IN CODE
+		FlightKey max = new FlightKey(key);
+		max.setTime("24:00");
+		FlightNode current = head;
+		while(current.getKey() != tail.getKey()){
+			if(current.getNext().getKey().compareTo(key) > 0){
+				if(current.getDown() == null) break;
+				current = current.getDown();
+			}else {
+				current = current.getNext();
+			}
+		}
 
+		//we hit the bottom
+		while(current.getKey() != tail.getKey()){
+			if(current.getKey().compareTo(max) > 0) break;
+			if(current.getKey().compareTo(key) > 0) arr.add(current);
+			current = current.getNext();
+		}
 		return arr;
 	}
 

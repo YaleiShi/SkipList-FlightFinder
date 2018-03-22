@@ -42,7 +42,23 @@ public class FlightKey implements Comparable<FlightKey> {
 	// FILL IN CODE: Write getters for origin, destination, date and time
 
 
-	public String getOrigin() {
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public void setDest(String dest) {
+        this.dest = dest;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getOrigin() {
 		return origin;
 	}
 
