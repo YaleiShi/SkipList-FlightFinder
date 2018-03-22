@@ -8,7 +8,6 @@ public class FlightList {
 	private FlightNode head;
 	private FlightNode tail;
 	private int height;
-	private final double PROBABILITY = 0.5;
 	private Random random;
 
 	// FILL IN CODE: needs to store the head, the tail and the height of the skip
@@ -73,10 +72,69 @@ public class FlightList {
 	 */
 	public boolean insert(FlightKey key, FlightData data) {
 		// FILL IN CODE
-		return false; // don't forget to change it
+        //decide the new tower height
+        int h = -1;
+        do{
+            h++;
+        }while(random.nextBoolean());
+
+        int dif = h - height;
+        for(int i = 0; i < dif; i++) setNewLevel();
+
+        int nowLevel = height;
+
+        FlightNode[] flightNodes = new FlightNode[h + 1];
+        int j = 0;
+        FlightNode current = head;
+        while(current != tail){
+            if(current.getNext().getKey().compareTo(key) >= 0){
+                if(nowLevel <= h){
+                    flightNodes[j] = current;
+                    j++;
+                }
+                if(current.getDown() == null) break;
+                current = current.getDown();
+                nowLevel--;
+            }else {
+                current = current.getNext();
+            }
+        }
+
+        //build the tower
+        FlightNode towerTop = new FlightNode(key, data);
+        FlightNode prev = flightNodes[0];
+        FlightNode next = prev.getNext();
+        helpInsert(towerTop, prev, next);
+        FlightNode up = towerTop;
+        FlightNode down;
+        for(int i = 1; i <= h; i++){
+            FlightNode newNode = new FlightNode(key, data);
+            prev = flightNodes[i];
+            next = prev.getNext();
+            helpInsert(newNode, prev, next);
+            down = newNode;
+            down.setUp(up);
+            up.setDown(down);
+            up = newNode;
+        }
+		return true; // don't forget to change it
 	}
 
-	public void  helpInsert(FlightNode middle, FlightNode prev, FlightNode next){
+    public void setNewLevel(){
+	    FlightNode newHead = new FlightNode(head);
+	    FlightNode newTail = new FlightNode(tail);
+	    newHead.setNext(newTail);
+	    newTail.setPrev(newHead);
+	    newHead.setDown(head);
+	    head.setUp(newHead);
+	    newTail.setDown(tail);
+	    tail.setUp(newTail);
+	    head = newHead;
+	    tail = newTail;
+	    height++;
+    }
+
+	public void helpInsert(FlightNode middle, FlightNode prev, FlightNode next){
 		prev.setNext(middle);
 		middle.setPrev(prev);
 		middle.setNext(next);
@@ -117,8 +175,19 @@ public class FlightList {
 	 * top. Each level should be printed on a separate line.
 	 */
 	public void print() {
-		// FILL IN CODE
+        print(head);
 	}
+
+	public void print(FlightNode root){
+	    FlightNode current = root;
+	    current = current.getNext();
+	    while(current.getKey() != tail.getKey()){
+	        System.out.print(current.getKey().toString());
+	        current = current.getNext();
+        }
+        System.out.println();
+	    if(root.getDown() != null) print(root.getDown());
+    }
 
 	/**
 	 * Outputs the SkipList to a file
