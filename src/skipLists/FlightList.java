@@ -294,20 +294,22 @@ public class FlightList {
 		String time = key.getTime();
 		int hour = Integer.parseInt(time.substring(0, 2));
 		String minute = time.substring(2);
-		int maxHour = hour + timeFrame;
+		int maxHour = hour + timeFrame + 1;
 		int minHour = hour - timeFrame;
 		String max;
 		if(maxHour < 10){
-			max = "0" + maxHour + minute;
+			max = "0" + maxHour + ":00";
 		}else {
-			max = maxHour + minute;
+			max = maxHour + ":00";
 		}
+		System.out.println(max);
 		String min;
 		if(minHour < 10){
-			min = "0" + minHour + minute;
+			min = "0" + minHour + ":00";
 		}else {
-			min = minHour + minute;
+			min = minHour + ":00";
 		}
+		System.out.println(min);
 		FlightKey maxKey = new FlightKey(key);
 		FlightKey minKey = new FlightKey(key);
 		maxKey.setTime(max);
@@ -327,7 +329,7 @@ public class FlightList {
 		//we hit the bottom
 		while(current.getKey() != tail.getKey()){
 			if(current.getKey().compareTo(maxKey) > 0) break;
-			if(current.getKey().compareTo(minKey) > 0) resFlights.add(current);
+			if(current.getKey().compareTo(minKey) >= 0) resFlights.add(current);
 			current = current.getNext();
 		}
 		for(FlightNode node: resFlights){
