@@ -1,5 +1,6 @@
 package skipLists;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -36,6 +37,30 @@ public class FlightList {
 	 */
 	public FlightList(String filename) {
 		// FILL IN CODE
+		FlightKey leftKey = new FlightKey("AAA", "", "","");
+		FlightKey rightKey = new FlightKey("ZZZ", "", "", "");
+		FlightNode left = new FlightNode(leftKey, null);
+		FlightNode right = new FlightNode(rightKey,null);
+		left.setNext(right);
+		right.setPrev(left);
+		head = left;
+		tail = right;
+		height = 0;
+		random = new Random();
+
+		try(BufferedReader reader = new BufferedReader(new FileReader(filename))){
+			String line = reader.readLine();
+			while(line != null){
+				String[] words = line.split(" ");
+				FlightKey newKey = new FlightKey(words[0], words[1], words[2], words[3]);
+				FlightData newData = new FlightData(words[4], Double.parseDouble(words[5]));
+				insert(newKey, newData);
+				line = reader.readLine();
+			}
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -183,6 +208,33 @@ public class FlightList {
 	public ArrayList<FlightNode> predecessors(FlightKey key, int timeFrame) {
 		ArrayList<FlightNode> arr = new ArrayList<FlightNode>();
 		// FILL IN CODE
+		FlightKey min = new FlightKey(key);
+		String time = key.getTime();
+		int hour = Integer.parseInt(time.substring(0,2));
+		int minHour = hour - timeFrame;
+		String minTime;
+		if(minHour < 10){
+			minTime = "0" + minHour + time.substring(2);
+		}else {
+			minTime = minHour + time.substring(2);
+		}
+		min.setTime(minTime);
+		FlightNode current = tail;
+		while(current.getKey() != head.getKey()){
+			if(current.getPrev().getKey().compareTo(key) < 0){
+				if(current.getDown() == null) break;
+				current = current.getDown();
+			}else {
+				current = current.getPrev();
+			}
+		}
+
+		//we hit the bottom
+		while(current.getKey() != head.getKey()){
+			if(current.getKey().compareTo(min) < 0) break;
+			if(current.getKey().compareTo(key) < 0) arr.add(current);
+			current = current.getPrev();
+		}
 		return arr;
 
 	}
@@ -192,18 +244,20 @@ public class FlightList {
 	 * top. Each level should be printed on a separate line.
 	 */
 	public void print() {
-        print(head);
+        System.out.println(toString(head));
 	}
 
-	public void print(FlightNode root){
+	public String toString(FlightNode root){
 	    FlightNode current = root;
 	    current = current.getNext();
+	    String s = "";
 	    while(current.getKey() != tail.getKey()){
-	        System.out.print(current.getKey().toString());
+	        s = s + current.getKey().toString();
 	        current = current.getNext();
         }
-        System.out.println();
-	    if(root.getDown() != null) print(root.getDown());
+        s = s + "\n";
+	    if(root.getDown() != null) s = s + toString(root.getDown());
+	    return s;
     }
 
 	/**
@@ -214,6 +268,12 @@ public class FlightList {
 	 */
 	public void print(String filename) {
 		// FILL IN CODE
+		try(PrintWriter pw = new PrintWriter(filename)){
+			pw.write(toString(head));
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -229,7 +289,45 @@ public class FlightList {
 	public ArrayList<FlightNode> findFlights(FlightKey key, int timeFrame) {
 		ArrayList<FlightNode> resFlights = new ArrayList<FlightNode>();
 		// FILL IN CODE
+		String time = key.getTime();
+		int hour = Integer.parseInt(time.substring(0, 2));
+		String minute = time.substring(2);
+		int maxHour = hour + timeFrame;
+		int minHour = hour - timeFrame;
+		String max;
+		if(maxHour < 10){
+			max = "0" + maxHour + minute;
+		}else {
+			max = maxHour + minute;
+		}
+		String min;
+		if(minHour < 10){
+			min = "0" + minHour + minute;
+		}else {
+			min = minHour + minute;
+		}
+		FlightKey maxKey = new FlightKey(key);
+		FlightKey minKey = new FlightKey(key);
+		maxKey.setTime(max);
+		minKey.setTime(min);
 
+		//search begin
+		FlightNode current = head;
+		while(current.getKey() != tail.getKey()){
+			if(current.getNext().getKey().compareTo(minKey) > 0){
+				if(current.getDown() == null) break;
+				current = current.getDown();
+			}else {
+				current = current.getNext();
+			}
+		}
+
+		//we hit the bottom
+		while(current.getKey() != tail.getKey()){
+			if(current.getKey().compareTo(maxKey) > 0) break;
+			if(current.getKey().compareTo(minKey) > 0) resFlights.add(current);
+			current = current.getNext();
+		}
 		return resFlights;
 	}
 
