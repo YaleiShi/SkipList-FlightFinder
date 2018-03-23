@@ -2,6 +2,7 @@ package skipLists;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 /** The class that represents the flight database using a skip list */
@@ -235,7 +236,8 @@ public class FlightList {
 			if(current.getKey().compareTo(key) < 0) arr.add(current);
 			current = current.getPrev();
 		}
-		return arr;
+        Collections.reverse(arr);
+        return arr;
 
 	}
 
@@ -328,6 +330,9 @@ public class FlightList {
 			if(current.getKey().compareTo(minKey) > 0) resFlights.add(current);
 			current = current.getNext();
 		}
+		for(FlightNode node: resFlights){
+		    System.out.println(node.getKey().toString());
+        }
 		return resFlights;
 	}
 

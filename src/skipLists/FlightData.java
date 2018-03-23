@@ -12,7 +12,7 @@ public class FlightData {
 	 * @param fnum flight number
 	 * @param price price of the flight
 	 */
-	FlightData(String fnum, double price) {
+    public FlightData(String fnum, double price) {
 		// FILL IN CODE
 		this.flightNumber = fnum;
 		this.price = price;
