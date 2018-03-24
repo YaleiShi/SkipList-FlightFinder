@@ -146,6 +146,9 @@ public class FlightList {
 		return true; // don't forget to change it
 	}
 
+	/**
+	 * Build a new level with a new head and a new tail
+	 */
     public void setNewLevel(){
 	    FlightNode newHead = new FlightNode(head);
 	    FlightNode newTail = new FlightNode(tail);
@@ -160,6 +163,12 @@ public class FlightList {
 	    height++;
     }
 
+	/**
+	 * the helper method to insert a new node between two nodes
+	 * @param middle the node to insert
+	 * @param prev the first node to insert after
+	 * @param next the second node to insert before
+	 */
 	public void helpInsert(FlightNode middle, FlightNode prev, FlightNode next){
 		prev.setNext(middle);
 		middle.setPrev(prev);
@@ -249,6 +258,11 @@ public class FlightList {
         System.out.println(toString(head));
 	}
 
+	/**
+	 * output the list into a string
+	 * @param root the head of the list
+	 * @return a String of the whole list
+	 */
 	public String toString(FlightNode root){
 	    FlightNode current = root;
 	    current = current.getNext();
@@ -302,14 +316,12 @@ public class FlightList {
 		}else {
 			max = maxHour + ":00";
 		}
-		System.out.println(max);
 		String min;
 		if(minHour < 10){
 			min = "0" + minHour + ":00";
 		}else {
 			min = minHour + ":00";
 		}
-		System.out.println(min);
 		FlightKey maxKey = new FlightKey(key);
 		FlightKey minKey = new FlightKey(key);
 		maxKey.setTime(max);
@@ -332,9 +344,6 @@ public class FlightList {
 			if(current.getKey().compareTo(minKey) >= 0) resFlights.add(current);
 			current = current.getNext();
 		}
-		for(FlightNode node: resFlights){
-		    System.out.println(node.getKey().toString());
-        }
 		return resFlights;
 	}
 
